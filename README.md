@@ -43,6 +43,8 @@ pip install matplotlib numpy pandas opencv-python addict six albumentations==0.4
     - `config_path` is path of config file;
     - `checkpoint_path` is path of model file;
     - `gpu_num` is the number of GPUs used, note that `gpu_num <= len(infernece.gpu_id).`
+
+
     E.g., evaluate shape-conv model on NYU-V2(40 categories), please run:
     ```bash
     ./tools/dist_test.sh configs/nyu/nyu40_deeplabv3plus_resnext101_shape.py checkpoints/nyu40_deeplabv3plus_resnext101_shape.pth 4
