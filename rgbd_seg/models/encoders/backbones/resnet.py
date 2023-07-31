@@ -351,7 +351,6 @@ class ResNet(ResNetCls):
 
         del self.fc, self.avgpool
         
-        # self.block1 = Fusionmodel(in_channels=256//2)
         self.block2 = Fusionmodel(in_channels=512//2)
         self.block3 = Fusionmodel(in_channels=1024//2)
         self.block4 = Fusionmodel(in_channels=2048//2)
@@ -367,7 +366,6 @@ class ResNet(ResNetCls):
 
         x1 = self.maxpool(x0)
         x1 = self.layer1(x1)  # 4
-        # x1 = self.block1(x1)
         feats['c2'] = x1      # [2，256，107，141]
 
         x2 = self.layer2(x1)  # 8 [2,512,54,71]
@@ -428,70 +426,68 @@ class Fusionmodel(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
-        ''' naive ours CWF change (channel-wise feature aggregation design change) '''
         ''' ours '''
 
         batch_size = x.size(0)
         channel = x.size(1)
         H = x.size(2)
-        W = x.size(3)                               # (4, 2048, 27, 36)               
+        W = x.size(3)          
 
-        '''RGB, Depth 각각 (NxC) 로 만들어주기'''
-        RGB = x.view(batch_size, channel, -1, 1)    # (4, 2048, 972, 1)
-        RGB_origin = self.RGB(x)                           # (4, 1024, 27, 36)
-        RGB = RGB_origin.view(batch_size, channel//2, -1, 1)   # (4, 1024, 972, 1)
-        RGB = RGB.permute(0, 2, 1, 3)               # (4, 972, 1024, 1)
+        RGB = x.view(batch_size, channel, -1, 1)
+        RGB_origin = self.RGB(x)
+        RGB = RGB_origin.view(batch_size, channel//2, -1, 1)
+        RGB = RGB.permute(0, 2, 1, 3)
 
         D = x.view(batch_size, channel, -1, 1)
         D_origin = self.D(x)
         D = D_origin.view(batch_size, channel//2, -1, 1)
         D = D.permute(0, 2, 1, 3)
 
-        concat = torch.cat([RGB, D], dim=1) # (4, 1944, 1024, 1)  # batch, 2(HW), channel
+        concat = torch.cat([RGB, D], dim=1)
 
-        x = np.split(x, 2, axis=1)  # (4, 1024, 27, 36)
+        x = np.split(x, 2, axis=1)
 
         '''intra & inter non-local attention'''
-        concat = concat.permute(0, 2, 1, 3)       # (4, 1024, 1944, 1)
+        concat = concat.permute(0, 2, 1, 3)
         channels = concat.size(1)
 
         query  = self.query(concat).view(batch_size, channels//2, -1)
-        query = query.permute(0, 2, 1)             # (4, 1944, 512)           
-        key = self.key(concat).view(batch_size, channels//2, -1) # (4, 512, 1944)              
-        value  = self.value(concat).view(batch_size, channels//2, -1).permute(0, 2, 1) # (4, 1944, 512)       
+        query = query.permute(0, 2, 1)          
+        key = self.key(concat).view(batch_size, channels//2, -1)              
+        value  = self.value(concat).view(batch_size, channels//2, -1).permute(0, 2, 1)
 
-        sim_map = torch.matmul(query, key)         # (4, 1944, 1944) 
+        sim_map = torch.matmul(query, key)
         sim_map = (channels ** -.5) * sim_map
         sim_map = F.softmax(sim_map, dim=-1)
         context = torch.matmul(sim_map, value)
-        context = context.permute(0, 2, 1).contiguous() # (4, 512, 1944)
-        context = context.view(batch_size, channels//2, *concat.size()[2:]) # (4, 512, 1944)
-        context = self.W(context)                 # (4, 1024, 1944, 1)   # batch, channel, 2(HW)
-        context = context.view(batch_size, channels*2, -1, 1)   # (4, 2048, 972, 1)
+        context = context.permute(0, 2, 1).contiguous()
+        context = context.view(batch_size, channels//2, *concat.size()[2:])
+        context = self.W(context)
+        context = context.view(batch_size, channels*2, -1, 1)
 
         '''RGB, D reshape'''
-        RGB_context = self.conv1(context)   # (4, 1024, 972, 1)  # batch, channel, H, W
-        RGB_context = RGB_context.view(batch_size, channels, H, W)  # (4, 1024, 27, 36)
+        RGB_context = self.conv1(context)
+        RGB_context = RGB_context.view(batch_size, channels, H, W)
         D_context = self.conv1(context)
         D_context = D_context.view(batch_size, channels, H, W)
 
         '''Information Aggregation'''
-        cat_fea = torch.cat([RGB_context, D_context], dim=1)  # (4, 2048, 27, 36)   # (B, C, H, W)
-        cat_fea = self.conv1(cat_fea)   # (4, 1024, 27, 36)
+        cat_fea = torch.cat([RGB_context, D_context], dim=1)
+        cat_fea = self.conv1(cat_fea)
 
         ''' GAP + adpative fusion '''
-        attention_vector = self.GAP(cat_fea)                # (4, 1024, 1, 1)
+        attention_vector = self.GAP(cat_fea)
         attention_vector = self.sigmoid(attention_vector)
-        attention_vector_RGB = x[0] * attention_vector      # (4, 1024, 27, 36)
+        attention_vector_RGB = x[0] * attention_vector
         attention_vector_D = x[1] * (1.0-attention_vector)
 
         ''' F_RGB + F'_RGB, D_RGB + D'_RGB '''
-        new_RGB = x[0] + attention_vector_RGB               # (4, 1024, 27, 36)
+        new_RGB = x[0] + attention_vector_RGB 
         new_D = x[1] + attention_vector_D
 
         # new_RGB = self.relu1(new_RGB)
         # new_D = self.relu2(new_D)
 
-        new_x = torch.cat([new_RGB, new_D], dim=1)          # (4, 2048, 27, 36)         
+        new_x = torch.cat([new_RGB, new_D], dim=1)        
 
         return new_x
