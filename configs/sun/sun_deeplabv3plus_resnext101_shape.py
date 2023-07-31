@@ -117,9 +117,9 @@ inference = dict(
 )
 
 # 2. configuration for train/test
-root_workdir = '/home/ubuntu/workspace/bk/ShapeConv'
-dataset_type = 'SUNDataset'
-dataset_root = '/home/ubuntu/workspace/bk/ShapeConv/sunrgbd'
+root_workdir = '/home/leon/Summarys'
+dataset_type = 'NYUV2Dataset'
+dataset_root = '/home/leon/Datasets/nyu_v2'
 
 common = dict(
     seed=0,
