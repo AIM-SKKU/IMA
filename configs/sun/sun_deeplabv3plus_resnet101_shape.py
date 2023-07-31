@@ -117,12 +117,9 @@ inference = dict(
 )
 
 # 2. configuration for train/test
-# root_workdir = '/root/workspace/ShapeConv/'
-# dataset_type = 'SUNDataset'
-# dataset_root = '/root/datasets/ShapeConv_datasets/sunrgbd'
-root_workdir = '/data/SAMSUNG/Model/RGB-D/ShapeConv_experiments/'
+root_workdir = '/home/leon/Summarys'
 dataset_type = 'SUNDataset'
-dataset_root = '/data/SAMSUNG/Model/RGB-D/ShapeConv_experiments/sunrgbd'
+dataset_root = '/home/leon/Datasets/sun_rgbd'
 
 common = dict(
     seed=0,
