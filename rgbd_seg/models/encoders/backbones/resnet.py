@@ -419,10 +419,6 @@ class Fusionmodel(nn.Module):
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
 
         self.GAP = nn.AdaptiveAvgPool2d((1, 1))
-
-        # self.relu1 = nn.ReLU()
-        # self.relu2 = nn.ReLU()
-        # self.softmax = nn.Softmax(dim=1)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
