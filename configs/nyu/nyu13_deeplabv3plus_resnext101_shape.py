@@ -132,9 +132,9 @@ inference = dict(
 )
 
 # 2. configuration for train/test
-root_workdir = '/shared/home/vclh/soyun/code/ShapeConv+module'
+root_workdir = '/home/leon/Summarys'
 dataset_type = 'NYUV2Dataset'
-dataset_root = '/shared/home/vclh/soyun/datasets/ShapeConv/nyu_v2'
+dataset_root = '/home/leon/Datasets/nyu_v2'
 
 common = dict(
     seed=0,
