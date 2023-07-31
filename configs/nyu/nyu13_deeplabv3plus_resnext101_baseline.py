@@ -47,7 +47,7 @@ act_cfg = dict(type='Relu', inplace=True)    # Relu, Tlu
 multi_label = False
 
 inference = dict(
-    gpu_id='0,1',
+    gpu_id='0,1,2,3',
     multi_label=multi_label,
     transforms=[
         dict(type='PadIfNeeded', min_height=size_h, min_width=size_w,
@@ -132,9 +132,9 @@ inference = dict(
 )
 
 # 2. configuration for train/test
-root_workdir = '/shared/home/vclh/soyun/code/ShapeConv+module'
+root_workdir = '/home/leon/Summarys'
 dataset_type = 'NYUV2Dataset'
-dataset_root = '/shared/home/vclh/soyun/datasets/ShapeConv/nyu_v2'
+dataset_root = '/home/leon/Datasets/nyu_v2'
 
 common = dict(
     seed=0,
