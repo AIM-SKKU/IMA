@@ -118,8 +118,8 @@ inference = dict(
 
 # 2. configuration for train/test
 root_workdir = '/home/leon/Summarys'
-dataset_type = 'NYUV2Dataset'
-dataset_root = '/home/leon/Datasets/nyu_v2'
+dataset_type = 'SUNDataset'
+dataset_root = '/home/leon/Datasets/sun_rgbd'
 
 common = dict(
     seed=0,
