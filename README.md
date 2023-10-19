@@ -1,5 +1,4 @@
-# IMA
-Intra-inter Modal Attention Blocks for RGB-D Semantic Segmentation - Official Pytorch Implementation (ICMR 2023)
+# Intra-inter Modal Attention Blocks for RGB-D Semantic Segmentation - Official Pytorch Implementation (ICMR 2023)
 
 <b> Intra-inter Modal Attention Blocks for RGB-D Semantic Segmentation </b>
 
