@@ -1,5 +1,9 @@
 # IMA
-23' ICMR paper
+Intra-inter Modal Attention Blocks for RGB-D Semantic Segmentation - Official Pytorch Implementation (ICMR 2023)
+
+<b> Intra-inter Modal Attention Blocks for RGB-D Semantic Segmentation </b>
+Soyun Choi, Youjia Zhang, Sungeun Hong
+In Proceedings of the ACM International Conference on Multimedia Retrieval 2023
 
 # Setting
 My env: RTX A6000, CUDA 11.2
