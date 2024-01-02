@@ -13,3 +13,8 @@ pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f htt
 # install pytorch
 pip install matplotlib numpy pandas opencv-python addict six albumentations==0.4.1 terminaltables pillow scipy h5py tensorboard
 ```
+
+# Datasets
+You can download nyudv2 and sunrgbd dataset in here: 
+
+https://o365inha-my.sharepoint.com/:f:/g/personal/sychoi_office_inha_ac_kr/EieBA6oJ-JpLjxFhHKQ5D-sBEcoT4FI65EV9NjMVmmZ0HQ?e=2BICQq
