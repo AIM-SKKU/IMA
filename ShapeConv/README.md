@@ -38,5 +38,5 @@
     
 
 
-# Acknowledgment
+# Acknowledgement
 Our code is based on [ShapeConv] (https://github.com/hanchaoleng/ShapeConv.git), thanks for their excellent work :)
