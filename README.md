@@ -35,7 +35,10 @@ pip install matplotlib numpy pandas opencv-python addict six albumentations==0.4
     ```
 
 # Evaluation
-1. Run
+1. Download checkpoints:
+   
+    https://o365inha-my.sharepoint.com/:f:/g/personal/sychoi_office_inha_ac_kr/EoQMB96V5KtMtugaUfQ4GXgBCwbvZH0lCp2jy6cGbDxqPg?e=C7lxTO
+4. Run
     i. Distributed evaluation, please run:
     ```bash
     ./tools/dist_test.sh config_path checkpoint_path gpu_num
