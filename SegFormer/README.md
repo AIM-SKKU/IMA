@@ -1,4 +1,4 @@
-### Train
+## Train
 1. Pretrain weights:
 
     Download the pretrained segformer here [pretrained segformer](https://drive.google.com/drive/folders/10XgSW8f7ghRs9fJ0dE-EV8G2E_guVsT5?usp=sharing).
@@ -15,7 +15,7 @@
 - The tensorboard file is saved in `log_<datasetName>_<backboneSize>/tb/` directory.
 - Checkpoints are stored in `log_<datasetName>_<backboneSize>/checkpoints/` directory.
 
-### Evaluation
+## Evaluation
 1. Download checkpoints:
    
     https://o365inha-my.sharepoint.com/:f:/g/personal/sychoi_office_inha_ac_kr/EoQMB96V5KtMtugaUfQ4GXgBCwbvZH0lCp2jy6cGbDxqPg?e=C7lxTO
