@@ -16,11 +16,15 @@
 - Checkpoints are stored in `log_<datasetName>_<backboneSize>/checkpoints/` directory.
 
 ### Evaluation
-Run the evaluation by:
-```shell
-CUDA_VISIBLE_DEVICES="GPU IDs" python eval.py -d="Device ID" -e="epoch number or range"
-```
-If you want to use multi GPUs please specify multiple Device IDs (0,1,2...).
+1. Download checkpoints:
+   
+    https://o365inha-my.sharepoint.com/:f:/g/personal/sychoi_office_inha_ac_kr/EoQMB96V5KtMtugaUfQ4GXgBCwbvZH0lCp2jy6cGbDxqPg?e=C7lxTO
+
+2. Run the evaluation by:
+    ```shell
+    CUDA_VISIBLE_DEVICES="GPU IDs" python eval.py -d="Device ID" -e="epoch number or range"
+    ```
+    If you want to use multi GPUs please specify multiple Device IDs (0,1,2...).
 
 
 
