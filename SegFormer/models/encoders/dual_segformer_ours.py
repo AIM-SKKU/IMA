@@ -4,8 +4,7 @@ import torch.nn.functional as F
 from functools import partial
 
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
-# from ..net_utils_ours import Fusionmodel, Addmodel
-from ..net_utils_ablation import Fusionmodel, Addmodel
+from ..net_utils_ours import Fusionmodel, Addmodel
 import math
 import time
 from engine.logger import get_logger
@@ -327,6 +326,7 @@ class RGBXTransformer(nn.Module):
         self.FusionBlock_1 = Addmodel(in_channels=embed_dims[1])
         self.FusionBlock_2 = Addmodel(in_channels=embed_dims[2])
         self.FusionBlock_3 = Fusionmodel(in_channels=embed_dims[3])
+        ''' ours '''
 
         self.apply(self._init_weights)
 
@@ -374,11 +374,6 @@ class RGBXTransformer(nn.Module):
         x_rgb = x_rgb.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()  # [8,64,120,160]
         x_e = x_e.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
 
-        # x_fused = (x_rgb +x_e)/2
-
-        # element-wise multiplication
-        # x_fused = torch.mul(x_rgb, x_e)
-
         x_rgb, x_e, x_fused = self.FusionBlock_0(x_rgb, x_e)
 
         outs.append(x_fused)
@@ -395,8 +390,6 @@ class RGBXTransformer(nn.Module):
 
         x_rgb = x_rgb.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         x_e = x_e.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()  # [8,128,60,80]
-        
-        # x_fused = (x_rgb +x_e)/2
 
         x_rgb, x_e, x_fused = self.FusionBlock_1(x_rgb, x_e)
 
@@ -414,8 +407,6 @@ class RGBXTransformer(nn.Module):
 
         x_rgb = x_rgb.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         x_e = x_e.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()  # [8,320,30,40]
-        
-        # x_fused = (x_rgb +x_e)/2
 
         x_rgb, x_e, x_fused = self.FusionBlock_2(x_rgb, x_e)
  
@@ -433,8 +424,6 @@ class RGBXTransformer(nn.Module):
 
         x_rgb = x_rgb.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         x_e = x_e.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
-
-        # x_fused = (x_rgb +x_e)/2
 
         x_rgb, x_e, x_fused = self.FusionBlock_3(x_rgb, x_e)  # [8,512,15,20]
 
