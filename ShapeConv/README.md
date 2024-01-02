@@ -36,3 +36,7 @@
     ```bash
     ./tools/dist_test.sh configs/nyu/nyu40_deeplabv3plus_resnext101_shape.py checkpoints/nyu40_deeplabv3plus_resnext101_shape.pth 4
     
+
+
+# Acknowledgment
+Our code is based on [ShapeConv] (https://github.com/hanchaoleng/ShapeConv.git), thanks for their excellent work :)
